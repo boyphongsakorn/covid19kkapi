@@ -114,7 +114,7 @@ let scheduledMessage = new cron.CronJob('*/5 * * * * *', () => {
                         redirect: 'follow'
                     };
 
-                    fetch("https://notify-api.line.me/api/notify?message=" + textnow + "&notificationDisabled=true", requestOptions)
+                    fetch("https://notify-api.line.me/api/notify?message=" + encodeURI(textnow) + "&notificationDisabled=true", requestOptions)
                         .then(response => response.text())
                         .then(result => console.log(result))
                         .catch(error => console.log('error', error));
