@@ -133,10 +133,11 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                             }
                         });
                         console.log('false')
-                        let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + "รวมทั้งหมด " + nowconfirm + " ราย แยกดังต่อไปนี้ \n"
+                        let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + " รวมทั้งหมด " + nowconfirm + " ราย แยกดังต่อไปนี้ \n"
                         comfirmdataarray.forEach(element => {
                             textnow += element[0] + "+" + element[1] + "\n"
                         });
+                        textnow = textnow.slice(0, -2)
                         var options = {
                             'method': 'POST',
                             'hostname': 'notify-api.line.me',
