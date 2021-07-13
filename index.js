@@ -137,7 +137,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         comfirmdataarray.forEach(element => {
                             textnow += element[0] + "+" + element[1] + "\n"
                         });
-                        textnow = textnow.slice(0, -2)
+                        textnow = textnow.slice(0, -1)
                         var options = {
                             'method': 'POST',
                             'hostname': 'notify-api.line.me',
