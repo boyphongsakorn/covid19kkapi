@@ -1,8 +1,32 @@
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
 const express = require('express')
+var https = require('follow-redirects').https;
 var fs = require('fs')
 const cron = require("cron");
+
+function arr_diff(a1, a2) {
+
+    var a = [], diff = [];
+
+    for (var i = 0; i < a1.length; i++) {
+        a[a1[i]] = true;
+    }
+
+    for (var i = 0; i < a2.length; i++) {
+        if (a[a2[i]]) {
+            delete a[a2[i]];
+        } else {
+            a[a2[i]] = true;
+        }
+    }
+
+    for (var k in a) {
+        diff.push(k);
+    }
+
+    return diff;
+}
 
 function padLeadingZeros(num, size) {
     var s = num + "";
@@ -58,7 +82,7 @@ function datetextandtime() {
 const app = express()
 const port = process.env.PORT || 3000;
 
-let scheduledMessage = new cron.CronJob('*/5 * * * * *', () => {
+let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
     let dataarray = []
     let comfirmdataarray = []
@@ -83,41 +107,74 @@ let scheduledMessage = new cron.CronJob('*/5 * * * * *', () => {
 
             var fileContents = null;
             try {
-                fileContents = fs.readFileSync('check.txt');
+                fileContents = fs.readFileSync('array.txt', { encoding: 'utf8', flag: 'r' });
             } catch (err) {
 
             }
 
-            if (fileContents && JSON.Parse(fileContents) != dataarray) {
-                if (dataarray != [['เมืองขอนแก่น', '0'], ['บ้านฝาง', '0'], ['พระยืน', '0'], ['หนองเรือ', '0'], ['ชุมแพ', '0'], ['สีชมพู', '0'], ['น้ำพอง', '0'], ['อุบลรัตน์', '0'], ['กระนวน', '0'], ['บ้านไผ่', '0'], ['เปือยน้อย', '0'], ['พล', '0'], ['แวงใหญ่', '0'], ['แวงน้อย', '0'], ['หนองสองห้อง', '0'], ['ภูเวียง', '0'], ['มัญจาคีรี', '0'], ['ชนบท', '0'], ['เขาสวนกวาง', '0'], ['ภูผาม่าน', '0'], ['ซำสูง', '0'], ['โคกโพธิ์ไชย', '0'], ['หนองนาคำ', '0'], ['บ้านแฮด', '0'], ['โนนศิลา', '0'], ['เวียงเก่า', '0'], ['ต่างจังหวัด', '0']]) {
-                    dataarray.forEach(element => {
-                        if (element[1] != '0') {
-                            if (element[1] > dataarray[0][1]) {
-                                comfirmdataarray.unshift([element[0], element[1]])
-                            } else {
-                                comfirmdataarray.push([element[0], element[1]])
+            if (fileContents) {
+                //console.log(fileContents)
+                if (arr_diff(JSON.parse(fileContents), dataarray).length != 0) {
+                    if (dataarray != [['เมืองขอนแก่น', '0'], ['บ้านฝาง', '0'], ['พระยืน', '0'], ['หนองเรือ', '0'], ['ชุมแพ', '0'], ['สีชมพู', '0'], ['น้ำพอง', '0'], ['อุบลรัตน์', '0'], ['กระนวน', '0'], ['บ้านไผ่', '0'], ['เปือยน้อย', '0'], ['พล', '0'], ['แวงใหญ่', '0'], ['แวงน้อย', '0'], ['หนองสองห้อง', '0'], ['ภูเวียง', '0'], ['มัญจาคีรี', '0'], ['ชนบท', '0'], ['เขาสวนกวาง', '0'], ['ภูผาม่าน', '0'], ['ซำสูง', '0'], ['โคกโพธิ์ไชย', '0'], ['หนองนาคำ', '0'], ['บ้านแฮด', '0'], ['โนนศิลา', '0'], ['เวียงเก่า', '0'], ['ต่างจังหวัด', '0']]) {
+                        dataarray.forEach(element => {
+                            if (element[1] != '0') {
+                                if (element[1] > dataarray[0][1]) {
+                                    comfirmdataarray.unshift([element[0], element[1]])
+                                } else {
+                                    comfirmdataarray.push([element[0], element[1]])
+                                }
                             }
-                        }
-                    });
-                    console.log('false')
-                    let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น '+ datetextandtime() + "\n"
-                    comfirmdataarray.forEach(element => {
-                        text += element[0] + "+" + element[1]
-                    });
-                    var myHeaders = new Headers();
-                    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-                    myHeaders.append("Authorization", "Bearer U2J3SOyoJgWp9qRZ6JTG6ngRgCfuqgpcivzblZw1fyB");
+                        });
+                        console.log('false')
+                        let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + "\n"
+                        comfirmdataarray.forEach(element => {
+                            textnow += element[0] + "+" + element[1] + "\n"
+                        });
+                        var options = {
+                            'method': 'POST',
+                            'hostname': 'notify-api.line.me',
+                            'path': '/api/notify?message='+encodeURI(textnow),
+                            //'path': '/api/notify?message='+encodeURI(textnow)+'&notificationDisabled=true',
+                            'headers': {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'Authorization': 'Bearer U2J3SOyoJgWp9qRZ6JTG6ngRgCfuqgpcivzblZw1fyB'
+                            },
+                            'maxRedirects': 20
+                        };
 
-                    var requestOptions = {
-                        method: 'POST',
-                        headers: myHeaders,
-                        redirect: 'follow'
-                    };
+                        var req = https.request(options, function (res) {
+                            var chunks = [];
 
-                    fetch("https://notify-api.line.me/api/notify?message=" + encodeURI(textnow) + "&notificationDisabled=true", requestOptions)
-                        .then(response => response.text())
-                        .then(result => console.log(result))
-                        .catch(error => console.log('error', error));
+                            res.on("data", function (chunk) {
+                                chunks.push(chunk);
+                            });
+
+                            res.on("end", function (chunk) {
+                                var body = Buffer.concat(chunks);
+                                console.log(body.toString());
+                            });
+
+                            res.on("error", function (error) {
+                                console.error(error);
+                            });
+                        });
+
+                        req.end();
+                        /*var myHeaders = new Headers();
+                        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+                        myHeaders.append("Authorization", "Bearer U2J3SOyoJgWp9qRZ6JTG6ngRgCfuqgpcivzblZw1fyB");
+
+                        var requestOptions = {
+                            method: 'POST',
+                            headers: myHeaders,
+                            redirect: 'follow'
+                        };
+
+                        fetch("https://notify-api.line.me/api/notify?message=" + encodeURI(textnow) + "&notificationDisabled=true", requestOptions)
+                            .then(response => response.text())
+                            .then(result => console.log(result))
+                            .catch(error => console.log('error', error));*/
+                    }
                 }
             } else {
                 console.log('ยังไม่มีการเปลี่ยนแปลง')
