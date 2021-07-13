@@ -112,6 +112,8 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
             }
 
+            let nowconfirm
+
             if (fileContents) {
                 //console.log(fileContents)
                 if (arr_diff(JSON.parse(fileContents), dataarray).length != 0) {
@@ -127,10 +129,11 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                 }else{
                                     comfirmdataarray.push([element[0], element[1]])
                                 }
+                                nowconfirm += parseInt(element[1])
                             }
                         });
                         console.log('false')
-                        let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + "\n"
+                        let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + "รวมทั้งหมด " +nowconfirm + " ราย แยกดังต่อไปนี้ \n "
                         comfirmdataarray.forEach(element => {
                             textnow += element[0] + "+" + element[1] + "\n"
                         });
