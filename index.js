@@ -121,7 +121,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         dataarray.forEach(element => {
                             if (element[1] != '0') {
                                 if(comfirmdataarray.length != 0){
-                                    if (parseInt(element[1]) > parseInt(comfirmdataarray[0][1])) {
+                                    if (parseInt(element[1]) >= parseInt(comfirmdataarray[0][1])) {
                                         comfirmdataarray.unshift([element[0], element[1]])
                                     }else{
                                         comfirmdataarray.push([element[0], element[1]])
