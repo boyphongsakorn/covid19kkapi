@@ -9,6 +9,10 @@ const HttpsProxyAgent = require('https-proxy-agent');
 
 //process.env['HTTP_PROXY'] = 'http://183.89.156.11:8080'
 
+function random_item(items){
+    return items[Math.floor(Math.random()*items.length)];    
+}
+
 function arr_diff(a1, a2) {
 
     var a = [], diff = [];
@@ -91,7 +95,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
     let dataarray = [];
     let comfirmdataarray = [];
 
-    const proxyAgent = new HttpsProxyAgent('http://116.58.232.252:45599');
+    const proxyAgent = new HttpsProxyAgent(random_item(['http://172.107.159.202:443', 'http://132.226.24.246:3128', 'http://152.101.74.178:8080', 'http://221.155.163.113:8080', 'http://116.58.232.252:45599']));
     fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{ agent: proxyAgent})
     //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
