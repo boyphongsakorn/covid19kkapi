@@ -1,9 +1,13 @@
 const fetch = require('node-fetch')
+//const fetch = require('node-fetch-with-proxy');
 const cheerio = require('cheerio')
 const express = require('express')
 var https = require('follow-redirects').https;
 var fs = require('fs')
 const cron = require("cron");
+const HttpsProxyAgent = require('https-proxy-agent');
+
+//process.env['HTTP_PROXY'] = 'http://183.89.156.11:8080'
 
 function arr_diff(a1, a2) {
 
@@ -84,12 +88,15 @@ const port = process.env.PORT || 3000;
 
 let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
-    let dataarray = []
-    let comfirmdataarray = []
+    let dataarray = [];
+    let comfirmdataarray = [];
 
-    fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
+    const proxyAgent = new HttpsProxyAgent('http://116.58.232.252:45599');
+    fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{ agent: proxyAgent})
+    //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
         .then((body) => {
+            
             let $ = cheerio.load(body)
             for (let index = 1; index < 108; index = index + 4) {
                 //const element = array[index];
@@ -98,10 +105,10 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
             }
             /*$('td').toArray().forEach(element => {
                 //console.log(element.firstChild.data)
-            });*/
+            });
             console.log(dataarray)
             //console.log(dataarray[0][0])
-            console.log(datetextandtime())
+            console.log(datetextandtime())*/
 
             //JSON.stringify(dataarray)
 
