@@ -95,7 +95,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
     let dataarray = [];
     let comfirmdataarray = [];
 
-    const proxyAgent = new HttpsProxyAgent(random_item(['http://172.107.159.202:443', 'http://132.226.24.246:3128', 'http://152.101.74.178:8080', 'http://221.155.163.113:8080', 'http://116.58.232.252:45599']));
+    const proxyAgent = new HttpsProxyAgent(random_item(['http://202.62.111.171:8080', 'http://24.172.34.114:49920', 'http://71.172.1.53:8080', 'http://118.70.12.171:53281', 'http://117.208.148.72:3128']));
     fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{ agent: proxyAgent})
     //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
