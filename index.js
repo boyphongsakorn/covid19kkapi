@@ -89,13 +89,24 @@ function datetextandtime() {
 
 const app = express()
 const port = process.env.PORT || 3000;
+let proxylist = ['202.62.111.171:8080', '24.172.34.114:49920', '203.192.217.11:8080', '118.70.12.171:53281', '45.70.14.226:999'];
 
 let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
     let dataarray = [];
     let comfirmdataarray = [];
 
-    const proxyAgent = new HttpsProxyAgent(random_item(['http://202.62.111.171:8080', 'http://24.172.34.114:49920', 'http://203.192.217.11:8080', 'http://118.70.12.171:53281', 'http://45.70.14.226:999']));
+    fetch('https://www.proxy-list.download/api/v1/get?type=https')
+    .then(res => res.text())
+    .then((body) => {
+        console.log(body.split("\r\n"))
+        proxylist = body.split("\r\n")
+        proxylist.pop()
+        console.log(proxylist)
+    })
+
+    const proxyAgent = new HttpsProxyAgent("http://"+random_item(proxylist));
+    console.log(proxyAgent)
     fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{ agent: proxyAgent})
     //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
