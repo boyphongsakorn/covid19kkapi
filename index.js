@@ -107,7 +107,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
     const proxyAgent = new HttpsProxyAgent("http://"+random_item(proxylist));
     console.log(proxyAgent)
-    fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{ agent: proxyAgent})
+    fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{timeout: 60,agent: proxyAgent})
     //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
         .then((body) => {
