@@ -7,6 +7,8 @@ var fs = require('fs')
 const cron = require("cron");
 const HttpsProxyAgent = require('https-proxy-agent');
 
+require('dotenv').config()
+
 //process.env['HTTP_PROXY'] = 'http://183.89.156.11:8080'
 
 function random_item(items){
@@ -167,7 +169,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                             //'path': '/api/notify?message='+encodeURI(textnow)+'&notificationDisabled=true',
                             'headers': {
                                 'Content-Type': 'application/x-www-form-urlencoded',
-                                'Authorization': 'Bearer rTdlR7CCKebHPoHXfSu9qphGgJOJ0v4O1fiRlzXWn7v'
+                                'Authorization': 'Bearer '+process.env.LINETOKEN
                             },
                             'maxRedirects': 20
                         };
@@ -190,20 +192,6 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         });
 
                         req.end();
-                        /*var myHeaders = new Headers();
-                        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-                        myHeaders.append("Authorization", "Bearer U2J3SOyoJgWp9qRZ6JTG6ngRgCfuqgpcivzblZw1fyB");
-
-                        var requestOptions = {
-                            method: 'POST',
-                            headers: myHeaders,
-                            redirect: 'follow'
-                        };
-
-                        fetch("https://notify-api.line.me/api/notify?message=" + encodeURI(textnow) + "&notificationDisabled=true", requestOptions)
-                            .then(response => response.text())
-                            .then(result => console.log(result))
-                            .catch(error => console.log('error', error));*/
                     }
                 }
             } else {
