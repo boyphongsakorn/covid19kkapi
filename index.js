@@ -167,7 +167,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                             //'path': '/api/notify?message='+encodeURI(textnow)+'&notificationDisabled=true',
                             'headers': {
                                 'Content-Type': 'application/x-www-form-urlencoded',
-                                'Authorization': 'Bearer T6saKc07SbcNBxaO4O4SCrx8btUM0LVTnCj6QPuWp4e'
+                                'Authorization': 'Bearer rTdlR7CCKebHPoHXfSu9qphGgJOJ0v4O1fiRlzXWn7v'
                             },
                             'maxRedirects': 20
                         };
