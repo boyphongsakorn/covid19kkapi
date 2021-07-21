@@ -185,9 +185,9 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                     if(vatoar[0] == element[0]){
                                         console.log(parseInt(element[1])-parseInt(vatoar[1]))
                                         if(parseInt(element[1])-parseInt(vatoar[1]) > 0){
-                                            textnow += '(เพิ่มขึ้นจากยอดที่อัพเดทก่อนหน้านี้ ' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
+                                            textnow += '(ก่อนหน้านี้ +' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
                                         }else{
-                                            textnow += '(ลดลงจากยอดที่อัพเดทก่อนหน้านี้ ' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
+                                            textnow += '(ก่อนหน้านี้ -' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
                                         }
                                         olddata.splice(i, 1)
                                     }
