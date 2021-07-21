@@ -184,11 +184,14 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                     console.log(i + ': ' + vatoar[1])
                                     if(vatoar[0] == element[0]){
                                         console.log(parseInt(element[1])-parseInt(vatoar[1]))
-                                        if(parseInt(element[1])-parseInt(vatoar[1]) > 0){
+                                        /*if(parseInt(element[1])-parseInt(vatoar[1]) > 0 && vatoar[1] != 0){
                                             textnow += '(ก่อนหน้านี้ +' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
-                                        }else{
+                                        }else if(parseInt(element[1])-parseInt(vatoar[1]) < 0 && vatoar[1] != 0){
                                             textnow += '(ก่อนหน้านี้ -' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
-                                        }
+                                        }else{
+                                            textnow += '(ก่อนหน้านี้ไม่มียอดผู้ติด)'
+                                        }*/
+                                        textnow += '(ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
                                         olddata.splice(i, 1)
                                     }
                                 })
