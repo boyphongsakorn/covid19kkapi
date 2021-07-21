@@ -175,19 +175,24 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                     array.splice(i, 1)
                                 }
                             })*/
-                            olddata.forEach(function (value, i) {
-                                console.log(i + ': ' + value)
-                                let vatoar = value.split(",")
-                                console.log(i + ': ' + vatoar)
-                                if(vatoar[0] == element[0]){
-                                    if(parseInt(element[1])-parseInt(vatoar[1]) > 0){
-                                        textnow += "(เพิ่มขึ้นจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(vatoar[1]) + " ราย)"
-                                    }else{
-                                        textnow += "(ลดลงจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(vatoar[1]) + " ราย)"
+                            if(olddata.length > 0){
+                                olddata.forEach(function (value, i) {
+                                    console.log(i + ': ' + value)
+                                    let vatoar = value.split(",")
+                                    console.log(i + ': ' + vatoar)
+                                    console.log(i + ': ' + vatoar[0])
+                                    console.log(i + ': ' + vatoar[1])
+                                    if(vatoar[0] == element[0]){
+                                        console.log(parseInt(element[1])-parseInt(vatoar[1]))
+                                        if(parseInt(element[1])-parseInt(vatoar[1]) > 0){
+                                            textnow += '(เพิ่มขึ้นจากยอดที่อัพเดทก่อนหน้านี้ ' + parseInt(element[1])-parseInt(vatoar[1]) + ' ราย)'
+                                        }else{
+                                            textnow += '(ลดลงจากยอดที่อัพเดทก่อนหน้านี้ ' + parseInt(element[1])-parseInt(vatoar[1]) + ' ราย)'
+                                        }
+                                        olddata.splice(i, 1)
                                     }
-                                    olddata.splice(i, 1)
-                                }
-                            })
+                                })
+                            }
                             textnow += "\n"
                         });
                         textnow = textnow.slice(0, -1)
