@@ -199,7 +199,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         var options = {
                             'method': 'POST',
                             'hostname': 'notify-api.line.me',
-                            'path': '/api/notify?message='+encodeURI(textnow),
+                            'path': '/api/notify?message='+encodeURIComponent(textnow),
                             //'path': '/api/notify?message='+encodeURI(textnow)+'&notificationDisabled=true',
                             'headers': {
                                 'Content-Type': 'application/x-www-form-urlencoded',
