@@ -177,13 +177,13 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                             })*/
                             if(olddata.length > 0){
                                 olddata.forEach(function (value, i) {
-                                    console.log(i + ': ' + value)
+                                    //console.log(i + ': ' + value)
                                     let vatoar = value.split(",")
-                                    console.log(i + ': ' + vatoar)
-                                    console.log(i + ': ' + vatoar[0])
-                                    console.log(i + ': ' + vatoar[1])
+                                    //console.log(i + ': ' + vatoar)
+                                    //console.log(i + ': ' + vatoar[0])
+                                    //console.log(i + ': ' + vatoar[1])
                                     if(vatoar[0] == element[0]){
-                                        console.log(parseInt(element[1])-parseInt(vatoar[1]))
+                                        //console.log(parseInt(element[1])-parseInt(vatoar[1]))
                                         /*if(parseInt(element[1])-parseInt(vatoar[1]) > 0 && vatoar[1] != 0){
                                             textnow += '(ก่อนหน้านี้ +' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
                                         }else if(parseInt(element[1])-parseInt(vatoar[1]) < 0 && vatoar[1] != 0){
