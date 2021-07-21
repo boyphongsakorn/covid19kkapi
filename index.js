@@ -137,11 +137,11 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
             }
 
             let nowconfirm = 0
-            let arrdiff = arr_diff(JSON.parse(fileContents), dataarray)
 
             if (fileContents) {
                 //console.log(fileContents)
-                if (arrdiff.length != 0) {
+                if (arr_diff(JSON.parse(fileContents), dataarray).length != 0) {
+                    let arrdiff = arr_diff(JSON.parse(fileContents), dataarray)
                     if (dataarray != [['เมืองขอนแก่น', '0'], ['บ้านฝาง', '0'], ['พระยืน', '0'], ['หนองเรือ', '0'], ['ชุมแพ', '0'], ['สีชมพู', '0'], ['น้ำพอง', '0'], ['อุบลรัตน์', '0'], ['กระนวน', '0'], ['บ้านไผ่', '0'], ['เปือยน้อย', '0'], ['พล', '0'], ['แวงใหญ่', '0'], ['แวงน้อย', '0'], ['หนองสองห้อง', '0'], ['ภูเวียง', '0'], ['มัญจาคีรี', '0'], ['ชนบท', '0'], ['เขาสวนกวาง', '0'], ['ภูผาม่าน', '0'], ['ซำสูง', '0'], ['โคกโพธิ์ไชย', '0'], ['หนองนาคำ', '0'], ['บ้านแฮด', '0'], ['โนนศิลา', '0'], ['เวียงเก่า', '0'], ['ต่างจังหวัด', '0']]) {
                         dataarray.forEach(element => {
                             if (element[1] != '0') {
