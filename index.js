@@ -162,7 +162,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         comfirmdataarray.forEach(element => {
                             textnow += element[0] + '+' + element[1]
                             arrdiff.forEach(function (value, i) {
-                                console.log(i + ': ' + value)
+                                console.log(i + ': ' + value[0] + " and " + value[1])
                                 /*if(value[0] == element[0]){
                                     if(parseInt(element[1])-parseInt(value[1]) > 0){
                                         textnow += "(เพิ่มขึ้นจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(value[1]) + " ราย)"
