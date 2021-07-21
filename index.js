@@ -141,7 +141,9 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
             if (fileContents) {
                 //console.log(fileContents)
                 if (arr_diff(JSON.parse(fileContents), dataarray).length != 0) {
-                    let arrdiff = arr_diff(JSON.parse(fileContents), dataarray)
+                    let olddata = arr_diff(JSON.parse(fileContents), dataarray).slice(0, arr_diff(JSON.parse(fileContents), dataarray).length/2)
+                    console.log(olddata)
+                    //let arrdiff = arr_diff(JSON.parse(fileContents), dataarray)
                     if (dataarray != [['เมืองขอนแก่น', '0'], ['บ้านฝาง', '0'], ['พระยืน', '0'], ['หนองเรือ', '0'], ['ชุมแพ', '0'], ['สีชมพู', '0'], ['น้ำพอง', '0'], ['อุบลรัตน์', '0'], ['กระนวน', '0'], ['บ้านไผ่', '0'], ['เปือยน้อย', '0'], ['พล', '0'], ['แวงใหญ่', '0'], ['แวงน้อย', '0'], ['หนองสองห้อง', '0'], ['ภูเวียง', '0'], ['มัญจาคีรี', '0'], ['ชนบท', '0'], ['เขาสวนกวาง', '0'], ['ภูผาม่าน', '0'], ['ซำสูง', '0'], ['โคกโพธิ์ไชย', '0'], ['หนองนาคำ', '0'], ['บ้านแฮด', '0'], ['โนนศิลา', '0'], ['เวียงเก่า', '0'], ['ต่างจังหวัด', '0']]) {
                         dataarray.forEach(element => {
                             if (element[1] != '0') {
@@ -161,7 +163,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + ' รวมทั้งหมด ' + nowconfirm + ' ราย แยกดังต่อไปนี้ \n'
                         comfirmdataarray.forEach(element => {
                             textnow += element[0] + '+' + element[1]
-                            console.log(arrdiff)
+                            /*console.log(arrdiff)
                             arrdiff.forEach(function (value, i) {
                                 console.log(i + ': ' + value)
                                 /*if(value[0] == element[0]){
@@ -171,7 +173,20 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                         textnow += "(ลดลงจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(value[1]) + " ราย)"
                                     }
                                     array.splice(i, 1)
-                                }*/
+                                }
+                            })*/
+                            olddata.forEach(function (value, i) {
+                                console.log(i + ': ' + value)
+                                let vatoar = value.split(",")
+                                console.log(i + ': ' + vatoar)
+                                if(vatoar[0] == element[0]){
+                                    if(parseInt(element[1])-parseInt(vatoar[1]) > 0){
+                                        textnow += "(เพิ่มขึ้นจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(vatoar[1]) + " ราย)"
+                                    }else{
+                                        textnow += "(ลดลงจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(vatoar[1]) + " ราย)"
+                                    }
+                                    array.splice(i, 1)
+                                }
                             })
                             textnow += "\n"
                         });
