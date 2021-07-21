@@ -185,7 +185,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                     }else{
                                         textnow += "(ลดลงจากยอดที่อัพเดทก่อนหน้านี้ " + parseInt(element[1])-parseInt(vatoar[1]) + " ราย)"
                                     }
-                                    array.splice(i, 1)
+                                    olddata.splice(i, 1)
                                 }
                             })
                             textnow += "\n"
