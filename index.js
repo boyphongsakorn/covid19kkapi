@@ -163,6 +163,16 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                             //comfirmdataarray.unshift([element[0], element[1]])
                                         }
                                     })*/
+                                    /*comfirmdataarray.forEach(function (value, i) {
+                                        if (parseInt(element[1]) >= parseInt(value[1])) {
+                                            if(comfirmdataarray.length-1 == i){
+                                                comfirmdataarray.push([element[0], element[1]])
+                                            }else{
+                                                comfirmdataarray.splice(i, 0, [element[0], element[1]]);
+                                            }
+                                            //comfirmdataarray.unshift([element[0], element[1]])
+                                        }
+                                    })*/
                                 }else{
                                     comfirmdataarray.push([element[0], element[1]])
                                 }
@@ -171,6 +181,9 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         });
                         console.log('false')
                         let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + ' รวมทั้งหมด ' + nowconfirm + ' ราย แยกดังต่อไปนี้ \n'
+                        comfirmdataarray.sort(function(a, b) {
+                            return b[1] - a[1];
+                        })
                         comfirmdataarray.forEach(element => {
                             textnow += element[0] + '+' + element[1]
                             /*console.log(arrdiff)
