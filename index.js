@@ -155,10 +155,12 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                     }*/
                                     comfirmdataarray.forEach(function (value, i) {
                                         if (parseInt(element[1]) >= parseInt(value[1])) {
-                                            comfirmdataarray.splice(i, 0, [element[0], element[1]]);
+                                            if(comfirmdataarray.length-1 == i){
+                                                comfirmdataarray.push([element[0], element[1]])
+                                            }else{
+                                                comfirmdataarray.splice(i, 0, [element[0], element[1]]);
+                                            }
                                             //comfirmdataarray.unshift([element[0], element[1]])
-                                        }else if(comfirmdataarray.length-1 == i){
-                                            comfirmdataarray.push([element[0], element[1]])
                                         }
                                     })
                                 }else{
