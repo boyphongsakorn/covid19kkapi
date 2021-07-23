@@ -214,7 +214,11 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                         }else{
                                             textnow += '(ก่อนหน้านี้ไม่มียอดผู้ติด)'
                                         }*/
-                                        textnow += '(ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
+                                        if(vatoar[1] == 0){
+                                            textnow += ' (มาใหม่)'
+                                        }else{
+                                            textnow += ' (ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
+                                        }
                                         olddata.splice(i, 1)
                                     }
                                 })
