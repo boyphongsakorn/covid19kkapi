@@ -101,10 +101,25 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
     fetch('https://www.proxy-list.download/api/v1/get?type=https')
     .then(res => res.text())
     .then((body) => {
+        proxylist = []
         console.log(body.split("\r\n"))
         proxylist = body.split("\r\n")
         proxylist.pop()
         console.log(proxylist)
+    })
+
+    fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https')
+    .then(res => res.json())
+    .then((body) => {
+        console.log(body.data)
+        for (const iterator of body.data) {
+            //console.log(iterator.ip)
+            proxylist.push(iterator.ip+':'+iterator.port)
+        }
+        /*console.log(body.split("\r\n"))
+        proxylist = body.split("\r\n")
+        proxylist.pop()
+        console.log(proxylist)*/
     })
 
     const proxyAgent = new HttpsProxyAgent("http://"+random_item(proxylist));
