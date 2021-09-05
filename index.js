@@ -151,6 +151,25 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
             }
 
+            var lasttime = null
+
+                    try {
+                        const stats = fs.statSync('array.txt');
+                        //const expiry = new Date().getTime()
+                        
+                        lasttime = stats.mtime
+
+                        // print file last modified date
+                        //console.log(`File Data Last Modified: ${stats.mtime}`);
+                        //console.log(`File Status Last Modified: ${stats.ctime}`);
+                        //console.log(Date.getTime() <stats.mtime.getTime())
+                        //if(stats.mtime.getTime() < expiry){
+                        //    console.log('yes')
+                        //}
+                    } catch (error) {
+                        //console.log(error);
+                    }
+
             let nowconfirm = 0
 
             if (fileContents) {
@@ -229,7 +248,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                         }else{
                                             textnow += '(ก่อนหน้านี้ไม่มียอดผู้ติด)'
                                         }*/
-                                        if(vatoar[1] == 0){
+                                        if(vatoar[1] == 0 || lasttime.toDateString() != new Date().toDateString()){
                                             textnow += ' (มาใหม่)'
                                         }else{
                                             textnow += ' (ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
