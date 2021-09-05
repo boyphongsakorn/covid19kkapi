@@ -11,8 +11,8 @@ require('dotenv').config()
 
 //process.env['HTTP_PROXY'] = 'http://183.89.156.11:8080'
 
-function random_item(items){
-    return items[Math.floor(Math.random()*items.length)];    
+function random_item(items) {
+    return items[Math.floor(Math.random() * items.length)];
 }
 
 function arr_diff(a1, a2) {
@@ -99,36 +99,36 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
     let comfirmdataarray = [];
 
     fetch('https://www.proxy-list.download/api/v1/get?type=https')
-    .then(res => res.text())
-    .then((body) => {
-        proxylist = []
-        console.log(body.split("\r\n"))
-        proxylist = body.split("\r\n")
-        proxylist.pop()
-        console.log(proxylist)
-    })
-
-    fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https')
-    .then(res => res.json())
-    .then((body) => {
-        console.log(body.data)
-        for (const iterator of body.data) {
-            //console.log(iterator.ip)
-            proxylist.push(iterator.ip+':'+iterator.port)
-        }
-        /*console.log(body.split("\r\n"))
-        proxylist = body.split("\r\n")
-        proxylist.pop()
-        console.log(proxylist)*/
-    })
-
-    const proxyAgent = new HttpsProxyAgent("http://"+random_item(proxylist));
-    console.log(proxyAgent)
-    fetch('https://covid19.kkpho.go.th/situation/page-trans.php',{timeout: 60000,agent: proxyAgent})
-    //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
         .then((body) => {
-            
+            proxylist = []
+            console.log(body.split("\r\n"))
+            proxylist = body.split("\r\n")
+            proxylist.pop()
+            console.log(proxylist)
+        })
+
+    fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https')
+        .then(res => res.json())
+        .then((body) => {
+            console.log(body.data)
+            for (const iterator of body.data) {
+                //console.log(iterator.ip)
+                proxylist.push(iterator.ip + ':' + iterator.port)
+            }
+            /*console.log(body.split("\r\n"))
+            proxylist = body.split("\r\n")
+            proxylist.pop()
+            console.log(proxylist)*/
+        })
+
+    const proxyAgent = new HttpsProxyAgent("http://" + random_item(proxylist));
+    console.log(proxyAgent)
+    fetch('https://covid19.kkpho.go.th/situation/page-trans.php', { timeout: 60000, agent: proxyAgent })
+        //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
+        .then(res => res.text())
+        .then((body) => {
+
             let $ = cheerio.load(body)
             for (let index = 1; index < 108; index = index + 4) {
                 //const element = array[index];
@@ -153,38 +153,38 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
             var lasttime = null
 
-                    try {
-                        const stats = fs.statSync('array.txt');
-                        //const expiry = new Date().getTime()
-                        
-                        lasttime = stats.mtime
+            try {
+                const stats = fs.statSync('array.txt');
+                //const expiry = new Date().getTime()
 
-                        // print file last modified date
-                        //console.log(`File Data Last Modified: ${stats.mtime}`);
-                        //console.log(`File Status Last Modified: ${stats.ctime}`);
-                        //console.log(Date.getTime() <stats.mtime.getTime())
-                        //if(stats.mtime.getTime() < expiry){
-                        //    console.log('yes')
-                        //}
-                    } catch (error) {
-                        //console.log(error);
-                    }
+                lasttime = stats.mtime
+
+                // print file last modified date
+                //console.log(`File Data Last Modified: ${stats.mtime}`);
+                //console.log(`File Status Last Modified: ${stats.ctime}`);
+                //console.log(Date.getTime() <stats.mtime.getTime())
+                //if(stats.mtime.getTime() < expiry){
+                //    console.log('yes')
+                //}
+            } catch (error) {
+                //console.log(error);
+            }
 
             let nowconfirm = 0
 
             if (fileContents) {
                 //console.log(fileContents)
                 if (arr_diff(JSON.parse(fileContents), dataarray).length != 0) {
-                    let olddata = arr_diff(JSON.parse(fileContents), dataarray).slice(0, arr_diff(JSON.parse(fileContents), dataarray).length/2)
+                    let olddata = arr_diff(JSON.parse(fileContents), dataarray).slice(0, arr_diff(JSON.parse(fileContents), dataarray).length / 2)
                     console.log(olddata)
                     //let arrdiff = arr_diff(JSON.parse(fileContents), dataarray)
                     if (dataarray != [['เมืองขอนแก่น', '0'], ['บ้านฝาง', '0'], ['พระยืน', '0'], ['หนองเรือ', '0'], ['ชุมแพ', '0'], ['สีชมพู', '0'], ['น้ำพอง', '0'], ['อุบลรัตน์', '0'], ['กระนวน', '0'], ['บ้านไผ่', '0'], ['เปือยน้อย', '0'], ['พล', '0'], ['แวงใหญ่', '0'], ['แวงน้อย', '0'], ['หนองสองห้อง', '0'], ['ภูเวียง', '0'], ['มัญจาคีรี', '0'], ['ชนบท', '0'], ['เขาสวนกวาง', '0'], ['ภูผาม่าน', '0'], ['ซำสูง', '0'], ['โคกโพธิ์ไชย', '0'], ['หนองนาคำ', '0'], ['บ้านแฮด', '0'], ['โนนศิลา', '0'], ['เวียงเก่า', '0'], ['ต่างจังหวัด', '0']]) {
                         dataarray.forEach(element => {
                             if (element[1] != '0') {
-                                if(comfirmdataarray.length != 0){
+                                if (comfirmdataarray.length != 0) {
                                     if (parseInt(element[1]) >= parseInt(comfirmdataarray[0][1])) {
                                         comfirmdataarray.unshift([element[0], element[1]])
-                                    }else{
+                                    } else {
                                         comfirmdataarray.push([element[0], element[1]])
                                     }
                                     /*comfirmdataarray.forEach(function (value, i) {
@@ -207,7 +207,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                             //comfirmdataarray.unshift([element[0], element[1]])
                                         }
                                     })*/
-                                }else{
+                                } else {
                                     comfirmdataarray.push([element[0], element[1]])
                                 }
                                 nowconfirm += parseInt(element[1])
@@ -215,7 +215,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         });
                         console.log('false')
                         let textnow = 'ผู้ติดเชื้อยืนยันวันนี้ของจังหวัดขอนแก่น ' + datetextandtime() + ' รวมทั้งหมด ' + nowconfirm + ' ราย แยกดังต่อไปนี้ \n'
-                        comfirmdataarray.sort(function(a, b) {
+                        comfirmdataarray.sort(function (a, b) {
                             return b[1] - a[1];
                         })
                         comfirmdataarray.forEach(element => {
@@ -232,14 +232,14 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                     array.splice(i, 1)
                                 }
                             })*/
-                            if(olddata.length > 0){
+                            if (olddata.length > 0) {
                                 olddata.forEach(function (value, i) {
                                     //console.log(i + ': ' + value)
                                     let vatoar = value.split(",")
                                     //console.log(i + ': ' + vatoar)
                                     //console.log(i + ': ' + vatoar[0])
                                     //console.log(i + ': ' + vatoar[1])
-                                    if(vatoar[0] == element[0]){
+                                    if (vatoar[0] == element[0]) {
                                         //console.log(parseInt(element[1])-parseInt(vatoar[1]))
                                         /*if(parseInt(element[1])-parseInt(vatoar[1]) > 0 && vatoar[1] != 0){
                                             textnow += '(ก่อนหน้านี้ +' + (parseInt(element[1])-parseInt(vatoar[1])) + ' ราย)'
@@ -248,9 +248,9 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                         }else{
                                             textnow += '(ก่อนหน้านี้ไม่มียอดผู้ติด)'
                                         }*/
-                                        if(vatoar[1] == 0 || lasttime.toDateString() != new Date().toDateString()){
+                                        if (vatoar[1] == 0 || lasttime.toDateString() != new Date().toDateString()) {
                                             textnow += ' (มาใหม่)'
-                                        }else{
+                                        } else {
                                             textnow += ' (ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
                                         }
                                         olddata.splice(i, 1)
@@ -263,11 +263,11 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         var options = {
                             'method': 'POST',
                             'hostname': 'notify-api.line.me',
-                            'path': '/api/notify?message='+encodeURIComponent(textnow),
+                            'path': '/api/notify?message=' + encodeURIComponent(textnow),
                             //'path': '/api/notify?message='+encodeURI(textnow)+'&notificationDisabled=true',
                             'headers': {
                                 'Content-Type': 'application/x-www-form-urlencoded',
-                                'Authorization': 'Bearer '+process.env.LINETOKEN
+                                'Authorization': 'Bearer ' + process.env.LINETOKEN
                             },
                             'maxRedirects': 20
                         };
