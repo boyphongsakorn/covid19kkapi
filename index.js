@@ -292,16 +292,17 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                         req.end();
                     }
                 }
+
+                fs.writeFile('array.txt', JSON.stringify(dataarray), function (err) {
+                    if (err) {
+                        throw err
+                    };
+                    console.log('Saved!');
+                });
             } else {
                 console.log('ยังไม่มีการเปลี่ยนแปลง')
             }
 
-            fs.writeFile('array.txt', JSON.stringify(dataarray), function (err) {
-                if (err) {
-                    throw err
-                };
-                console.log('Saved!');
-            });
             //U2J3SOyoJgWp9qRZ6JTG6ngRgCfuqgpcivzblZw1fyB
         })
 
