@@ -248,7 +248,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                         }else{
                                             textnow += '(ก่อนหน้านี้ไม่มียอดผู้ติด)'
                                         }*/
-                                        if (vatoar[1] == 0 || lasttime.toDateString() != new Date().toDateString()) {
+                                        if (vatoar[1] == 0 && lasttime.toDateString() != new Date().toDateString()) {
                                             textnow += ' (มาใหม่)'
                                         } else {
                                             textnow += ' (ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
