@@ -98,7 +98,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
     let dataarray = [];
     let comfirmdataarray = [];
 
-    fetch('https://www.proxy-list.download/api/v1/get?type=https')
+    fetch('https://www.proxy-list.download/api/v1/get?type=https&country=TH')
         .then(res => res.text())
         .then((body) => {
             proxylist = []
@@ -108,7 +108,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
             console.log(proxylist)
         })
 
-    fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https')
+    fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https&country=TH')
         .then(res => res.json())
         .then((body) => {
             console.log(body.data)
