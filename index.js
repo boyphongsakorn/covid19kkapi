@@ -124,7 +124,15 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
 
     const proxyAgent = new HttpsProxyAgent("http://" + random_item(proxylist));
     console.log(proxyAgent)
-    let test = { timeout: 60000, agent: proxyAgent };
+    // random 0 and 1
+    let random = Math.floor(Math.random() * 2)
+    // if random 0
+    let test
+    if (random == 0) {
+        test = { timeout: 60000, agent: proxyAgent };
+    }else{
+        test = { timeout: 60000 };
+    }
     fetch('https://covid19.kkpho.go.th/situation/page-trans.php', test)
         //fetch('https://covid19.kkpho.go.th/situation/page-trans.php')
         .then(res => res.text())
@@ -249,7 +257,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
                                         }else{
                                             textnow += '(ก่อนหน้านี้ไม่มียอดผู้ติด)'
                                         }*/
-                                        if (vatoar[1] == 0 && lasttime.toDateString() != new Date().toDateString()) {
+                                        if (vatoar[1] == 0) {
                                             textnow += ' (มาใหม่)'
                                         } else {
                                             textnow += ' (ก่อนหน้านี้ +' + vatoar[1] + ' ราย)'
