@@ -98,7 +98,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', async () => {
     let dataarray = [];
     let comfirmdataarray = [];
 
-    fetch('https://www.proxy-list.download/api/v1/get?type=https&country=TH')
+    await fetch('https://www.proxy-list.download/api/v1/get?type=https&country=TH')
         .then(res => res.text())
         .then((body) => {
             proxylist = []
@@ -108,17 +108,21 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', async () => {
             console.log(proxylist)
         })
 
-    fetch('https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt')
+    await fetch('https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt')
         .then(res => res.text())
         .then((body) => {
-            proxylist = []
+            //proxylist = []
             //console.log(body.split("\r\n"))
-            proxylist = body.split("\n")
-            proxylist.pop()
-            console.log(proxylist)
+            //proxylist = body.split("\n")
+            //proxylist.pop()
+            //console.log(proxylist)
+            //push body.split("\n") to proxylist
+            for (let i = 0; i < body.split("\n").length; i++) {
+                proxylist.push(body.split("\n")[i])
+            }
         })
 
-    fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https')
+    await fetch('https://proxylist.geonode.com/api/proxy-list?limit=50&page=1&sort_by=lastChecked&sort_type=desc&protocols=https')
         .then(res => res.json())
         .then((body) => {
             console.log(body.data)
