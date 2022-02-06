@@ -98,7 +98,7 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', async () => {
     let dataarray = [];
     let comfirmdataarray = [];
 
-    fetch('https://www.proxy-list.download/api/v1/get?type=https')
+    fetch('https://www.proxy-list.download/api/v1/get?type=https&country=TH')
         .then(res => res.text())
         .then((body) => {
             proxylist = []
