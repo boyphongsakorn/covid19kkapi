@@ -93,7 +93,7 @@ const app = express()
 const port = process.env.PORT || 3000;
 let proxylist = ['202.62.111.171:8080', '24.172.34.114:49920', '203.192.217.11:8080', '118.70.12.171:53281', '45.70.14.226:999'];
 
-let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
+let scheduledMessage = new cron.CronJob('*/60 * * * * *', async () => {
 
     let dataarray = [];
     let comfirmdataarray = [];
@@ -102,8 +102,18 @@ let scheduledMessage = new cron.CronJob('*/60 * * * * *', () => {
         .then(res => res.text())
         .then((body) => {
             proxylist = []
-            console.log(body.split("\r\n"))
+            //console.log(body.split("\r\n"))
             proxylist = body.split("\r\n")
+            proxylist.pop()
+            console.log(proxylist)
+        })
+
+    fetch('https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/https.txt')
+        .then(res => res.text())
+        .then((body) => {
+            proxylist = []
+            //console.log(body.split("\r\n"))
+            proxylist = body.split("\n")
             proxylist.pop()
             console.log(proxylist)
         })
